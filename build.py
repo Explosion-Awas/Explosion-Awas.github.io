@@ -887,7 +887,7 @@ def copy_assets() -> None:
     assets = CONTENT / "assets"
     if assets.exists():
         shutil.copytree(assets, OUT / "assets", dirs_exist_ok=True)
-    for name in ("CNAME", "robots.txt"):
+    for name in ("CNAME", "robots.txt", "og.png"):
         src = CONTENT / name
         if src.exists():
             shutil.copy2(src, OUT / name)
