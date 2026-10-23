@@ -1,0 +1,41 @@
+# Site configuration. Edit freely; no need to touch build.py.
+
+title = "Explosion Awas"
+short_title = "Awas"
+description = "A blog of results produced with autonomous agents — papers, code, and the notes in between."
+url = "https://explosion-awas.github.io"
+author = "Explosion Awas"
+github = "Explosion-Awas"
+email = ""
+locale = "en"
+license_prose = "CC BY 4.0"
+license_code = "MIT"
+start_year = 2026
+
+[hero]
+eyebrow = "Blog · 2026"
+# Lines are separated by " | ". *text* renders italic.
+headline = "Notes on computation, | *and on getting it right.*"
+lede = "I work with autonomous agents and publish what comes out of it: results, code, and the notes in between. Everything here ships with the artefacts needed to check it, so it can be reproduced rather than believed."
+primary_label = "Read the writing"
+primary_href = "/writing/"
+secondary_label = "GitHub"
+
+# Three entry points shown on the home page.
+[[sections]]
+title = "Writing"
+note = "Notes and results"
+body = "What was computed, how it was checked, and where it could turn out to be wrong."
+href = "/writing/"
+
+[[sections]]
+title = "Projects"
+note = "Code and experiments"
+body = "The repositories behind the posts — scripts, inputs, and what they take to run."
+href = "/projects/"
+
+[[sections]]
+title = "Papers"
+note = "Manuscripts"
+body = "Preprints and published work, each paired with the code that produced its figures."
+href = "/papers/"

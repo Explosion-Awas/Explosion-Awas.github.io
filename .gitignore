@@ -1,0 +1,7 @@
+public/
+public.stale.*
+.tmp_assets/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
