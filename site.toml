@@ -39,3 +39,10 @@ title = "Papers"
 note = "Manuscripts"
 body = "Preprints and published work, each paired with the code that produced its figures."
 href = "/papers/"
+
+# The honesty banner under the hero. Set `enabled = false` to remove it.
+[notice]
+label = "Experimental record"
+text = "This is an experimental record, not a peer-reviewed publication. Entries are produced with autonomous agents and should be read as claims under test — some of them will not survive scrutiny. Verification is the point: replications, corrections and counterexamples are all welcome."
+link_label = "How entries are checked"
+link_href = "/about/"

@@ -541,6 +541,56 @@ a.tag:hover { color: var(--accent); }
   padding: 0;
 }
 
+/* publication-status strip under the hero ---------------------------------- */
+
+.notice {
+  background: var(--bg-2);
+  border-block: 1px solid var(--rule);
+}
+.notice-inner {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 8px 28px;
+  align-items: baseline;
+  padding-block: 18px;
+}
+.notice-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding-top: 2px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.notice-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-wash);
+}
+.notice-text {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 92ch;
+}
+.notice-link {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--accent) 45%, transparent);
+  text-underline-offset: 3px;
+  white-space: nowrap;
+  margin-left: 8px;
+}
+.notice-link span { margin-left: 5px; color: var(--accent); }
+.notice-link:hover { color: var(--accent); }
+
 /* --------------------------------------------------------------------------
    sections
    -------------------------------------------------------------------------- */
@@ -1554,6 +1604,10 @@ h3:hover .h-anchor,
   .paper { grid-template-columns: minmax(0, 1fr); gap: 10px; }
   .paper-side { flex-direction: row; gap: 10px; }
   .paper .chip { justify-self: start; }
+
+  .notice-inner { grid-template-columns: minmax(0, 1fr); gap: 6px; padding-block: 16px; }
+  .notice-text { font-size: 13px; }
+  .notice-link { white-space: normal; }
 
   .foot-cols { gap: 32px; }
   .prose { font-size: 16.5px; }

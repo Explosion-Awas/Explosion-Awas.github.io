@@ -572,6 +572,23 @@ def build_home(cfg: dict, posts: list[Doc], projects: list[Doc], papers: list[Do
         <a class="side-sub" href="/feed.xml">{ICON['rss']}<span>Subscribe via RSS</span></a>
       </div>"""
 
+    notice = cfg.get("notice") or {}
+    notice_html = ""
+    if notice.get("text") and notice.get("enabled", True) is not False:
+        link = ""
+        if notice.get("link_label"):
+            href = notice.get("link_href", "/about/")
+            link = (f'<a class="notice-link" href="{esc(href)}">'
+                    f'{esc(notice["link_label"])}<span aria-hidden="true">→</span></a>')
+        notice_html = f"""<section class="notice" aria-label="Publication status">
+  <div class="shell notice-inner">
+    <p class="notice-label"><span class="notice-dot" aria-hidden="true"></span>{esc(notice.get('label', 'Status'))}</p>
+    <p class="notice-text">{esc(notice['text'])} {link}</p>
+  </div>
+</section>
+
+"""
+
     content = f"""<section class="hero">
   <div class="shell hero-grid">
     <div class="hero-main">
@@ -589,7 +606,7 @@ def build_home(cfg: dict, posts: list[Doc], projects: list[Doc], papers: list[Do
   </div>
 </section>
 
-<section class="shell band band--areas">
+{notice_html}<section class="shell band band--areas">
   {section_head('01', 'What is here')}
   <div class="area-grid">{sections_html}</div>
 </section>
