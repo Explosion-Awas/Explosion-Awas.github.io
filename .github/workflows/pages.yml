@@ -40,3 +40,23 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  smoke:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch the live site and check the response
+        run: |
+          set -u
+          for attempt in $(seq 1 24); do
+            code=$(curl -sL -o /tmp/index.html -w '%{http_code}' https://explosion-awas.github.io/ || true)
+            echo "attempt $attempt → HTTP $code"
+            if [ "$code" = "200" ] && grep -q '<title>Explosion Awas</title>' /tmp/index.html; then
+              echo "live site OK ($(wc -c < /tmp/index.html) bytes)"
+              grep -o '<title>[^<]*</title>' /tmp/index.html
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "live site did not serve the expected page"
+          exit 1
