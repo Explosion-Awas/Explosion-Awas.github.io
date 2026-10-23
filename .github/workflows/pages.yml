@@ -61,8 +61,13 @@ jobs:
               fi
             done
             if [ "$ok" = "1" ] && curl -sL "$base/" | grep -q '<title>Explosion Awas</title>'; then
+              page=$(curl -sL "$base/")
+              case "$page" in
+                *"not a peer-reviewed publication"*) ;;
+                *) echo "homepage is missing the publication-status notice"; exit 1 ;;
+              esac
               echo "live site OK — checked: $paths"
-              curl -sL "$base/" | grep -o '<title>[^<]*</title>'
+              echo "$page" | grep -o '<title>[^<]*</title>'
               exit 0
             fi
             sleep 10
