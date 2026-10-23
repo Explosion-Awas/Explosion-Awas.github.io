@@ -45,18 +45,27 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch the live site and check the response
+      - name: Fetch the live site and check every section
         run: |
           set -u
+          base=https://explosion-awas.github.io
+          paths="/ /writing/ /projects/ /papers/ /about/ /feed.xml /search/ /404.html"
           for attempt in $(seq 1 24); do
-            code=$(curl -sL -o /tmp/index.html -w '%{http_code}' https://explosion-awas.github.io/ || true)
-            echo "attempt $attempt → HTTP $code"
-            if [ "$code" = "200" ] && grep -q '<title>Explosion Awas</title>' /tmp/index.html; then
-              echo "live site OK ($(wc -c < /tmp/index.html) bytes)"
-              grep -o '<title>[^<]*</title>' /tmp/index.html
+            ok=1
+            for path in $paths; do
+              code=$(curl -sL -o /tmp/body -w '%{http_code}' "$base$path" || true)
+              if [ "$code" != "200" ]; then
+                echo "attempt $attempt: $path → HTTP $code (not ready)"
+                ok=0
+                break
+              fi
+            done
+            if [ "$ok" = "1" ] && curl -sL "$base/" | grep -q '<title>Explosion Awas</title>'; then
+              echo "live site OK — checked: $paths"
+              curl -sL "$base/" | grep -o '<title>[^<]*</title>'
               exit 0
             fi
             sleep 10
           done
-          echo "live site did not serve the expected page"
+          echo "live site did not serve every expected page"
           exit 1
