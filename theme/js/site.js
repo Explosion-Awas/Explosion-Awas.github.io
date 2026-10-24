@@ -1,4 +1,4 @@
-/* Explosion Awas — theme, code blocks, reading progress, and client-side search.
+/* Explosion Awas — lamps, code blocks, reading progress, and client-side search.
    No dependencies, no network calls except the local search index. */
 
 (() => {
@@ -6,17 +6,18 @@
 
   const doc = document;
   const root = doc.documentElement;
-  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const langPrefix = (root.lang || "en").toLowerCase().startsWith("zh") ? "/zh" : "";
 
   /* ---------------------------------------------------------------------- */
-  /* theme                                                                  */
+  /* lamps (theme)                                                          */
   /* ---------------------------------------------------------------------- */
   const themeBtn = doc.querySelector("[data-theme-toggle]");
   const metaTheme = doc.querySelector('meta[name="theme-color"]');
 
   function paintTheme() {
-    if (metaTheme) metaTheme.setAttribute("content", root.dataset.theme === "dark" ? "#0d0e10" : "#fbfaf7");
-    if (themeBtn) themeBtn.setAttribute("aria-pressed", String(root.dataset.theme === "dark"));
+    const dark = root.dataset.theme === "dark";
+    if (metaTheme) metaTheme.setAttribute("content", dark ? "#12100d" : "#f3e9d7");
+    if (themeBtn) themeBtn.setAttribute("aria-pressed", String(dark));
   }
   paintTheme();
 
@@ -46,7 +47,7 @@
           { left: "$", right: "$", display: false },
         ],
         throwOnError: false,
-        errorColor: "#c0392b",
+        errorColor: "#b8430f",
         ignoredClasses: ["highlight", "codeblock", "katex"],
       });
     } catch (error) {
@@ -107,7 +108,8 @@
   if (bar && prose) {
     let ticking = false;
     const update = () => {
-      const start = prose.offsetTop - 120;
+      const rect = prose.getBoundingClientRect();
+      const start = rect.top + window.scrollY - 120;
       const total = prose.offsetHeight - window.innerHeight * 0.55;
       const value = Math.min(1, Math.max(0, (window.scrollY - start) / Math.max(total, 1)));
       bar.style.transform = `scaleX(${value})`;
@@ -162,7 +164,7 @@
 
   async function loadIndex() {
     if (index) return index;
-    const response = await fetch("/search-index.json");
+    const response = await fetch(`${langPrefix}/search-index.json`);
     index = await response.json();
     return index;
   }
@@ -185,12 +187,14 @@
 
   function render(entries, container, query) {
     if (!container) return;
+    const empty = container.dataset.empty || "Start typing.";
+    const miss = container.dataset.miss || `Nothing matches “${query}”.`;
     container.innerHTML = "";
     if (!entries.length) {
-      const empty = doc.createElement("div");
-      empty.className = "search-empty";
-      empty.textContent = query ? `Nothing matches “${query}”.` : "Start typing to search.";
-      container.appendChild(empty);
+      const note = doc.createElement("div");
+      note.className = "search-empty";
+      note.textContent = query ? miss.replace("{q}", query) : empty;
+      container.appendChild(note);
       return;
     }
     entries.forEach((entry, i) => {
@@ -273,8 +277,9 @@
 
   if (pageInput) {
     pageInput.addEventListener("input", (event) => search(event.target.value, pageResults));
-    if (new URLSearchParams(location.search).get("q")) {
-      pageInput.value = new URLSearchParams(location.search).get("q");
+    const query = new URLSearchParams(location.search).get("q");
+    if (query) {
+      pageInput.value = query;
       search(pageInput.value, pageResults);
     }
   }

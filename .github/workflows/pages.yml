@@ -49,7 +49,7 @@ jobs:
         run: |
           set -u
           base=https://explosion-awas.github.io
-          paths="/ /writing/ /projects/ /papers/ /about/ /feed.xml /search/ /404.html /og.png /favicon.svg"
+          paths="/ /writing/ /projects/ /papers/ /about/ /feed.xml /search/ /404.html /og.png /favicon.svg /zh/ /zh/writing/ /zh/about/ /zh/feed.xml"
           for attempt in $(seq 1 24); do
             ok=1
             for path in $paths; do
@@ -63,10 +63,19 @@ jobs:
             if [ "$ok" = "1" ] && curl -sL "$base/" | grep -q '<title>Explosion Awas</title>'; then
               page=$(curl -sL "$base/")
               case "$page" in
-                *"not a peer-reviewed publication"*) ;;
-                *) echo "homepage is missing the publication-status notice"; exit 1 ;;
+                *'class="console"'*) ;;
+                *) echo "homepage is missing the workshop console"; exit 1 ;;
               esac
-              echo "live site OK — checked: $paths"
+              case "$page" in
+                *'href="/zh/"'*) ;;
+                *) echo "homepage has no language switch"; exit 1 ;;
+              esac
+              zh=$(curl -sL "$base/zh/")
+              case "$zh" in
+                *'<html lang="zh-CN"'*) ;;
+                *) echo "Chinese homepage is not marked up as zh-CN"; exit 1 ;;
+              esac
+              echo "live site OK · checked: $paths"
               echo "$page" | grep -o '<title>[^<]*</title>'
               exit 0
             fi

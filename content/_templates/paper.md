@@ -1,6 +1,7 @@
 ---
-# Copy into content/papers/ and rename to <slug>.md — the filename is the URL:
-#   content/papers/example-paper.md  →  /papers/example-paper/
+# Copy into content/en/papers/ (and optionally content/zh/papers/) and rename to
+# <slug>.md. The filename is the URL:
+#   content/en/papers/example-paper.md  ->  /papers/example-paper/
 
 title: Paper title as it appears on the manuscript
 authors: A. Author, B. Author

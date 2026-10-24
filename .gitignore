@@ -5,3 +5,9 @@ __pycache__/
 *.pyc
 .DS_Store
 Thumbs.db
+
+# local preview / QA artifacts
+shots/
+.preview/
+.edge-profile/
+.chrome-profile/
