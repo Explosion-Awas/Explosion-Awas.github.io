@@ -715,12 +715,15 @@ def work_cards(L: "Lang", projects: list[Doc]) -> str:
     cards = []
     for i, p in enumerate(projects, start=1):
         chip = p.meta.get("status", "active")
-        cards.append(f"""<a class="card" href="{p.url}">
+        repo = p.meta.get("repo")
+        repo_html = (f'<a class="btn btn--ghost" href="{esc(repo)}" target="_blank" rel="noopener">{ICON["github"]}Repository</a>'
+                     if repo else "")
+        cards.append(f"""<article class="card">
     <span class="card-top"><span class="card-id">No. {i:02d}</span><span class="chip chip--{esc(str(chip))}">{esc(L.status(chip))}</span></span>
-    <h3 class="card-title">{esc(p.title)}</h3>
+    <h3 class="card-title"><a href="{p.url}">{esc(p.title)}</a></h3>
     <p class="card-sum">{esc(p.summary)}</p>
-    <span class="card-foot">{''.join(f'<span class="tag">{esc(L.label(t))}</span>' for t in p.tags[:3])}</span>
-  </a>""")
+    <div class="card-foot">{''.join(f'<span class="tag">{esc(L.label(t))}</span>' for t in p.tags[:3])}{repo_html}</div>
+  </article>""")
     return f'<div class="work-grid">{"".join(cards)}</div>'
 
 
@@ -1007,6 +1010,46 @@ def build_papers(L: "Lang") -> str:
                 rel="/papers/", content=content, body_class="page-listing")
 
 
+def build_paper(L: "Lang", paper: Doc) -> str:
+    labels = (("作者", "刊物 / 会议", "年份", "状态") if L.code == "zh"
+              else ("Authors", "Venue", "Year", "Status"))
+    metadata = []
+    for key, label in zip(("authors", "venue", "year", "status"), labels):
+        value = paper.year if key == "year" else paper.meta.get(key)
+        if not value:
+            continue
+        display = (f'<span class="chip chip--{esc(str(value))}">{esc(L.status(value))}</span>'
+                   if key == "status" else esc(value))
+        metadata.append(f'<div><dt>{esc(label)}</dt><dd>{display}</dd></div>')
+    meta_html = f'<dl class="art-meta">{"".join(metadata)}</dl>' if metadata else ""
+    links = []
+    for key, label in (("pdf", "PDF"), ("code", "Code"), ("doi", "DOI"), ("arxiv", "arXiv")):
+        value = paper.meta.get(key)
+        if value:
+            links.append(f'<a class="btn btn--ghost" href="{esc(value)}" target="_blank" rel="noopener">{label}</a>')
+    actions = f'<div class="art-actions">{"".join(links)}</div>' if links else ""
+    toc = (f'<nav class="toc" aria-label="{esc(L.t("contents"))}">'
+           f'<p class="toc-h">{esc(L.t("contents"))}</p>{paper.toc}</nav>') if '<a ' in paper.toc else ""
+    content = f"""<article class="article article--paper">
+  <div class="shell">
+    <header class="art-head">
+      <p class="kicker"><a href="{L.href('/papers/')}">{esc(L.t('papers_title'))}</a></p>
+      <h1 class="art-title">{esc(paper.title)}</h1>
+      {f'<p class="art-lede">{esc(paper.summary)}</p>' if paper.summary else ''}
+      {meta_html}
+      {actions}
+    </header>
+    <div class="art-grid">
+      <aside class="art-rail">{toc}</aside>
+      <div class="prose" data-prose>{paper.body}</div>
+    </div>
+  </div>
+</article>"""
+    return page(L, title=paper.title, description=paper.summary,
+                rel=paper.rel, content=content, body_class="page-article",
+                math='class="math' in paper.body)
+
+
 def build_about(L: "Lang") -> str:
     body = L.about.body if L.about else "<p>About page coming soon.</p>"
     gh = f"https://github.com/{CFG['github']}"
@@ -1230,6 +1273,8 @@ def build(verbose: bool = True, clean: bool = True) -> int:
         for project in L.projects:
             write(project.url, build_project(L, project))
         write(L.href("/papers/"), build_papers(L))
+        for paper in L.papers:
+            write(paper.url, build_paper(L, paper))
         write(L.href("/about/"), build_about(L))
         write(L.href("/search/"), build_search(L))
         write(L.href("/feed.xml"), build_feed(L))
@@ -1250,6 +1295,7 @@ def build(verbose: bool = True, clean: bool = True) -> int:
         urls.append((L.href("/about/"), today))
         urls += [(p.url, (p.date or dt.date.today()).isoformat()) for p in L.posts]
         urls += [(p.url, today) for p in L.projects]
+        urls += [(p.url, (p.date or dt.date.today()).isoformat()) for p in L.papers]
 
     write("/404.html", build_404())
     write("/sitemap.xml", build_sitemap(urls))

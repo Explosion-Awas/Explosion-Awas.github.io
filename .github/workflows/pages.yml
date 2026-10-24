@@ -24,8 +24,12 @@ jobs:
           python-version: "3.12"
       - name: Install build dependencies
         run: python -m pip install --quiet markdown pygments
+      - name: Test publication page generation and smoke validation
+        run: python -B -m unittest discover -s tests -v
       - name: Build and check internal links
         run: python build.py --check
+      - name: Verify local NFW artifact content, build ID and exact downloads
+        run: python -B tools/check_nfw_publication.py --directory public --expected-build-id "$GITHUB_SHA" --attempts 1 --delay 0
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -83,3 +87,6 @@ jobs:
           done
           echo "live site did not serve every expected page"
           exit 1
+      - uses: actions/checkout@v4
+      - name: Verify published NFW content and exact PDF/source downloads
+        run: python -B tools/check_nfw_publication.py --expected-build-id "$GITHUB_SHA" --attempts 24 --delay 10

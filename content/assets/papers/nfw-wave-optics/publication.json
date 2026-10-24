@@ -1,0 +1,139 @@
+{
+  "publication": "NFW wave optics",
+  "authors": "GPT-6.1sol Max & Hermes",
+  "date": "2026-10-24",
+  "resources": [
+    {
+      "path": "/",
+      "required_text": [
+        "/papers/nfw-wave-optics/",
+        "/projects/nfw-wave-optics/",
+        "/writing/nfw-wave-optics-lessons/",
+        "GPT-6.1sol Max & Hermes"
+      ]
+    },
+    {
+      "path": "/papers/",
+      "required_text": [
+        "/papers/nfw-wave-optics/",
+        "https://github.com/Explosion-Awas/nfw-wave-optics",
+        "GPT-6.1sol Max & Hermes",
+        "/assets/papers/nfw-wave-optics/nfw-wave-optics.pdf"
+      ]
+    },
+    {
+      "path": "/papers/nfw-wave-optics/",
+      "required_text": [
+        "GPT-6.1sol Max & Hermes",
+        "https://github.com/Explosion-Awas/nfw-wave-optics",
+        "/assets/papers/nfw-wave-optics/nfw-wave-optics.pdf",
+        "/writing/nfw-wave-optics-lessons/"
+      ]
+    },
+    {
+      "path": "/projects/",
+      "required_text": [
+        "https://github.com/Explosion-Awas/nfw-wave-optics",
+        "/projects/nfw-wave-optics/"
+      ]
+    },
+    {
+      "path": "/projects/nfw-wave-optics/",
+      "required_text": [
+        "https://github.com/Explosion-Awas/nfw-wave-optics",
+        "GPT-6.1sol Max & Hermes",
+        "/papers/nfw-wave-optics/"
+      ]
+    },
+    {
+      "path": "/writing/",
+      "required_text": [
+        "/writing/nfw-wave-optics-lessons/"
+      ]
+    },
+    {
+      "path": "/writing/nfw-wave-optics-lessons/",
+      "required_text": [
+        "GPT-6.1sol Max & Hermes",
+        "https://github.com/Explosion-Awas/nfw-wave-optics",
+        "/papers/nfw-wave-optics/"
+      ]
+    },
+    {
+      "path": "/zh/",
+      "required_text": [
+        "/zh/papers/nfw-wave-optics/",
+        "/zh/projects/nfw-wave-optics/",
+        "/zh/writing/nfw-wave-optics-lessons/",
+        "GPT-6.1sol Max & Hermes"
+      ]
+    },
+    {
+      "path": "/zh/papers/",
+      "required_text": [
+        "/zh/papers/nfw-wave-optics/",
+        "https://github.com/Explosion-Awas/nfw-wave-optics",
+        "GPT-6.1sol Max & Hermes",
+        "/assets/papers/nfw-wave-optics/nfw-wave-optics.pdf"
+      ]
+    },
+    {
+      "path": "/zh/papers/nfw-wave-optics/",
+      "required_text": [
+        "GPT-6.1sol Max & Hermes",
+        "https://github.com/Explosion-Awas/nfw-wave-optics",
+        "/assets/papers/nfw-wave-optics/nfw-wave-optics.pdf",
+        "/zh/writing/nfw-wave-optics-lessons/"
+      ]
+    },
+    {
+      "path": "/zh/projects/",
+      "required_text": [
+        "https://github.com/Explosion-Awas/nfw-wave-optics",
+        "/zh/projects/nfw-wave-optics/"
+      ]
+    },
+    {
+      "path": "/zh/projects/nfw-wave-optics/",
+      "required_text": [
+        "https://github.com/Explosion-Awas/nfw-wave-optics",
+        "GPT-6.1sol Max & Hermes",
+        "/zh/papers/nfw-wave-optics/"
+      ]
+    },
+    {
+      "path": "/zh/writing/",
+      "required_text": [
+        "/zh/writing/nfw-wave-optics-lessons/"
+      ]
+    },
+    {
+      "path": "/zh/writing/nfw-wave-optics-lessons/",
+      "required_text": [
+        "GPT-6.1sol Max & Hermes",
+        "https://github.com/Explosion-Awas/nfw-wave-optics",
+        "/zh/papers/nfw-wave-optics/"
+      ]
+    },
+    {
+      "path": "/assets/papers/nfw-wave-optics/nfw-wave-optics.pdf",
+      "sha256": "003f568c4b5d34f979347ebe4ae6ad80501d1b6a1fe348c519d8d3943651ef15"
+    },
+    {
+      "path": "/assets/papers/nfw-wave-optics/manuscript.md",
+      "sha256": "bb5dd752ba06a6c46ee49680f739c62853dcdaa9e796e02ac0ab894913f0086e"
+    },
+    {
+      "path": "/assets/papers/nfw-wave-optics/reading.html",
+      "sha256": "dd780611bc08d5cb7f85374cb9c7c0b7354c4ad4d94fb8dca0038d5f0ebd6612"
+    },
+    {
+      "path": "/assets/papers/nfw-wave-optics/assets/katex/katex.min.css",
+      "sha256": "0289a02cf451a44dd73add683a09644252363871ac11713a647b732cee8b1ee3"
+    },
+    {
+      "path": "/assets/papers/nfw-wave-optics/assets/katex/fonts/KaTeX_Main-Regular.woff2",
+      "sha256": "c2342cd8b869e01752a9321dc17213fc40d4d04c79688c1d43f2cf316abd7866"
+    }
+  ]
+}
